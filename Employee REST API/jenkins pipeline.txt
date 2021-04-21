@@ -1,0 +1,31 @@
+properties([pipelineTriggers([githubPush()])])
+pipeline{
+    agent any
+    tools{
+        maven "Maven3"
+    }
+    stages{
+        stage("git clone")
+        {
+            steps{
+                git url: 'https://github.com/GargSahabJi/EmployeeRESTApi.git',
+                branch: 'master'
+            }
+        }
+        stage("clean"){
+            steps{
+               bat "mvn clean"
+            }
+        }
+        stage("install"){
+            steps{
+               bat "mvn install"
+            }
+        }
+        stage("package"){
+            steps{
+               bat "mvn package"
+            }
+        }
+    }
+}
